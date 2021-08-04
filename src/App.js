@@ -1,27 +1,32 @@
 import React, {useState} from "react";
 import {TodoItem} from "./components/TodoItem";
+import {useDispatch} from "react-redux";
+import {saveTodo} from "./redux/slice";
+import {useSelector} from "react-redux";
+import {selecTodoList} from "./redux/slice";
+
 
 const App = () => {
 
     const [currentLabel, setCurrentLable] = useState('')
 
-    const [list, setList] = useState([
-        {isSelected: true, label: 'First'},
-        {isSelected: false, label: 'Second'},
-        {isSelected: false, label: 'Third'},
-        {isSelected: false, label: 'Fourh'},
-        {isSelected: false, label: 'First'},
-        {isSelected: false, label: 'First'},
-        {isSelected: false, label: 'First'},
-        {isSelected: false, label: 'First'},
-        {isSelected: false, label: 'First'},
-    ])
+    const dispatch = useDispatch();
+    const {todosList} = useSelector((state) => state.todos);
+
+
+    const addTodo = () => {
+        // dispatch(saveTodo({
+        //     item: list,
+        //     done: false,
+        //     id: Date.now()
+        // }))
+    }
 
     const addTask = () => {
-
-        list.push({isSelected: false, label: currentLabel})
-        setList(list)
-        setCurrentLable('')
+        //
+        // list.push({isSelected: false, label: currentLabel})
+        // setList(list)
+        // setCurrentLable('')
     }
 
     const handleInputChange = (event) => {
@@ -30,12 +35,12 @@ const App = () => {
     }
 
     const handleDeleteItem = (params) => {
-        const newList = list.filter((item,index) => index!==params)
-
-        setList(newList)
+        // const newList = list.filter((item,index) => index!==params)
+        //
+        // setList(newList)
     }
 
-
+// debugger
     return (
         <div className="container">
             <div className="toDoContainer">
@@ -44,7 +49,7 @@ const App = () => {
                 <button onClick={addTask} id="addButton">Add</button>
             </div>
             <div className="doingContainer">
-                {list.map(
+                {todosList.map(
                     (item, index) => (
                         <TodoItem isSelected={item.isSelected} label={item.label} deleteAction={handleDeleteItem}
                                   key={index} index={index}/>)
