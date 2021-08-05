@@ -1,63 +1,44 @@
 import React, {useState} from "react";
-import {TodoItem} from "./components/TodoItem";
 import {useDispatch} from "react-redux";
 import {saveTodo} from "./redux/slice";
-import {useSelector} from "react-redux";
-import {selecTodoList} from "./redux/slice";
+import TodoList from "./components/TodoItem/TodoList";
+
 
 
 const App = () => {
 
-    const [currentLabel, setCurrentLable] = useState('')
-
-    const dispatch = useDispatch();
-    const {todosList} = useSelector((state) => state.todos);
-
-
-    const addTodo = () => {
-        // dispatch(saveTodo({
-        //     item: list,
-        //     done: false,
-        //     id: Date.now()
-        // }))
-    }
-
-    const addTask = () => {
-        //
-        // list.push({isSelected: false, label: currentLabel})
-        // setList(list)
-        // setCurrentLable('')
-    }
-
+    const [title, setTitle] = useState('');
+    
     const handleInputChange = (event) => {
         const {value} = event.target
-        setCurrentLable(value)
+        setTitle(value)
     }
 
-    const handleDeleteItem = (params) => {
-        // const newList = list.filter((item,index) => index!==params)
-        //
-        // setList(newList)
-    }
+    const dispatch = useDispatch();
+    
 
-// debugger
+    
+
+    const addTask = (event) =>{
+        event.preventDefault(); 
+        dispatch(
+            saveTodo({
+                title: title,
+            })
+        );
+    };
+
     return (
-        <div className="container">
+        <div className="container" >
             <div className="toDoContainer">
                 <h1>To-do-list</h1>
-                <input name="todo" id="mainInput" type="text" onChange={handleInputChange} value={currentLabel}/>
-                <button onClick={addTask} id="addButton">Add</button>
+                <input name="todo" id="mainInput" type="text" value={title}  onChange={handleInputChange} />
+                <button onClick={addTask}  id="addButton">Add</button>
             </div>
-            <div className="doingContainer">
-                {todosList.map(
-                    (item, index) => (
-                        <TodoItem isSelected={item.isSelected} label={item.label} deleteAction={handleDeleteItem}
-                                  key={index} index={index}/>)
-                )}
-            </div>
-
+            <TodoList />
         </div>
     );
 }
+
 
 export default App;
