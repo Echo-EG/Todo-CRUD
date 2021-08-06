@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import {useDispatch} from "react-redux";
 import {saveTodo} from "./redux/slice";
 import TodoList from "./components/TodoItem/TodoList";
@@ -8,7 +8,11 @@ import TodoList from "./components/TodoItem/TodoList";
 const App = () => {
 
     const [title, setTitle] = useState('');
-    
+
+    // React.useEffect(() => {
+    //     localStorage.setitem('localStorage-data', JSON.stringify(title))
+    // })
+
     const handleInputChange = (event) => {
         const {value} = event.target
         setTitle(value)

@@ -1,20 +1,15 @@
-import {createSlice} from "@reduxjs/toolkit";
+import {createSlice, createAsyncThunk} from "@reduxjs/toolkit";
 
 // import {list, setList} from "../App";
 
 
 
-// const [list, setList] = useState([])
-// setList(action.payload)
+// ===========================================
 
-
-// const initialState = {
-//     todosList: [{isSelected: false, label: 'First 1'}]
-// };
 
 const todoSlice = createSlice({
     name: 'todos',
-    initialState: [],
+    initialState: JSON.parse(localStorage.getItem('todos')) || [],
     reducers:{
          saveTodo: (state, action) => {
              const newTodo = {
@@ -23,6 +18,7 @@ const todoSlice = createSlice({
                  completed: false,
              };
              state.push(newTodo);
+             localStorage.setItem('todos', JSON.stringify(state))
         },
 
         toggleComplete : (state, action) => {
@@ -30,10 +26,13 @@ const todoSlice = createSlice({
                 (todos) => todos.id === action.payload.id
             );
             state[index].completed = action.payload.completed;
+            localStorage.setItem('todos', JSON.stringify(state))
         },
 
         deleteTodo: (state, action) =>{
-            return state.filter((todos)=> todos.id !== action.payload.id);
+             const result= state.filter((todos)=> todos.id !== action.payload.id);
+            localStorage.setItem('todos', JSON.stringify(result))
+            return result
         }
     },
 });

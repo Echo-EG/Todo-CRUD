@@ -1,11 +1,15 @@
-import React from 'react';
+import React, { useEffect} from 'react';
 import TodoItem from './TodoItem';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { getTodosAsync} from "../../redux/slice";
 
 const TodoList = () =>{
 
+    const dispatch = useDispatch();
+    const todos = useSelector((state) => {
 
-    const todos = useSelector((state) => state.todos);
+        return state.todos
+    });
 
     //     const initialState = {
     //     todosList: [{isSelected: false, label: 'First 1'}]
@@ -14,7 +18,7 @@ const TodoList = () =>{
     return (
         <div className="doingContainer">
             {todos.map(
-                (newTodo, index) => (
+                (newTodo) => (
                     <TodoItem id={newTodo.id} title={newTodo.title} completed={newTodo.completed}/>)
                     // <TodoItem index={newTodo.id} key={newTodo.id} title={newTodo.title} completed={newTodo.completed}/>)
                     // <TodoItem isSelected={item.isSelected} label={item.label} deleteAction={handleDeleteItem}
